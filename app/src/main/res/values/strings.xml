@@ -16,4 +16,8 @@
     <string name="requiredField">Required Field!</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
+    <string name="confirm_delete">Confirm delete?</string>
+    <string name="confirm_progress">Are you sure?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

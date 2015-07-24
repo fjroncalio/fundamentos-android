@@ -1,5 +1,7 @@
 package com.example.fabricio.myapplication.controller;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -42,7 +44,6 @@ public class ClientListAcitvity extends AppCompatActivity {
     }
 
 
-
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         getMenuInflater().inflate(R.menu.menu_client_list_context, menu);
@@ -56,20 +57,35 @@ public class ClientListAcitvity extends AppCompatActivity {
     }
 
 
-
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menuEdit:
                 Intent intent = new Intent(ClientListAcitvity.this, ClientPersistActivity.class);
-                intent.putExtra(ClientPersistActivity.CLIENT_PARAM, (Parcelable)client);
+                intent.putExtra(ClientPersistActivity.CLIENT_PARAM, (Parcelable) client);
                 startActivity(intent);
                 break;
 
             case R.id.menuDelete:
-                client.delete();
-                refreshClientList();
-                Toast.makeText(ClientListAcitvity.this, R.string.success, Toast.LENGTH_LONG).show();
+                new AlertDialog.Builder(ClientListAcitvity.this)
+                        .setMessage(R.string.confirm_progress)
+                        .setTitle(R.string.confirm_delete)
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                client.delete();
+                                refreshClientList();
+                                Toast.makeText(ClientListAcitvity.this, R.string.success, Toast.LENGTH_LONG).show();
+                            }
+                        }).create().show();
+
+
                 break;
         }
 
@@ -84,7 +100,6 @@ public class ClientListAcitvity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 
     private void refreshClientList() {

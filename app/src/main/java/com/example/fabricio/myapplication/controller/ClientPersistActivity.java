@@ -1,7 +1,6 @@
 package com.example.fabricio.myapplication.controller;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,11 +30,11 @@ public class ClientPersistActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            Client client = (Client) extras.getParcelable(CLIENT_PARAM);
-            if(client == null){
+            client = (Client) extras.getParcelable(CLIENT_PARAM);
+            if (client == null) {
                 throw new IllegalArgumentException();
             }
-            bindForm(client);
+            bindClient(client);
         }
 
     }
@@ -52,7 +51,7 @@ public class ClientPersistActivity extends AppCompatActivity {
 
 
             if (FormHelper.requiredValidate(ClientPersistActivity.this, editTextAddress, editTextAge, editTextName, editTextPhone)) {
-                bindForm();
+                bindClient();
                 client.save();
 
                 Toast.makeText(ClientPersistActivity.this, R.string.success, Toast.LENGTH_SHORT).show();
@@ -72,20 +71,17 @@ public class ClientPersistActivity extends AppCompatActivity {
     }
 
 
-    private void bindForm() {
-        client = new Client();
-
-        if (!(editTextAge.getText() == null || editTextAge.getText().toString().isEmpty())) {
-            client.setAge(Integer.valueOf(editTextAge.getText().toString()));
-        } else {
-            client.setAge(0);
+    private void bindClient() {
+        if (client == null) {
+            client = new Client();
         }
+        client.setAge(Integer.valueOf(editTextAge.getText().toString()));
         client.setName(editTextName.getText().toString());
         client.setAddress(editTextAddress.getText().toString());
         client.setPhone(editTextPhone.getText().toString());
     }
 
-    private void bindForm(Client client) {
+    private void bindClient(Client client) {
         editTextAge.setText(client.getAge().toString());
         editTextName.setText(client.getName());
         editTextAddress.setText(client.getAddress());

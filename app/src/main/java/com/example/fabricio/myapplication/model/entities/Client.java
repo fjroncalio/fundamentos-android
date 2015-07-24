@@ -1,13 +1,17 @@
 package com.example.fabricio.myapplication.model.entities;
 
+import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.example.fabricio.myapplication.model.persistence.MemoryClientRepository;
+import com.example.fabricio.myapplication.model.persistence.SQliteClientRepository;
+
 import java.io.Serializable;
 import java.util.List;
 
 public class Client implements Serializable, Parcelable {
 
+    private Integer id;
     private String name;
     private Integer age;
     private String  phone;
@@ -24,6 +28,14 @@ public class Client implements Serializable, Parcelable {
         readToParcel(in);
     }
 
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -60,20 +72,6 @@ public class Client implements Serializable, Parcelable {
 
 
 
-    public void delete() {
-        MemoryClientRepository.getInstance().delete(this);
-    }
-
-    public void save(){
-        MemoryClientRepository.getInstance().save(this);
-    }
-
-    public  static List<Client> getAll(){
-        return MemoryClientRepository.getInstance().getAll();
-    }
-
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -81,6 +79,7 @@ public class Client implements Serializable, Parcelable {
 
         Client client = (Client) o;
 
+        if (id != null ? !id.equals(client.id) : client.id != null) return false;
         if (name != null ? !name.equals(client.name) : client.name != null) return false;
         if (age != null ? !age.equals(client.age) : client.age != null) return false;
         if (phone != null ? !phone.equals(client.phone) : client.phone != null) return false;
@@ -90,7 +89,8 @@ public class Client implements Serializable, Parcelable {
 
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (age != null ? age.hashCode() : 0);
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
@@ -100,12 +100,30 @@ public class Client implements Serializable, Parcelable {
     @Override
     public String toString() {
         return "Client{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", age=" + age +
                 ", phone='" + phone + '\'' +
                 ", address='" + address + '\'' +
                 '}';
     }
+
+
+
+    public void delete() {
+        SQliteClientRepository.getInstance().delete(this);
+    }
+
+    public void save(){
+        SQliteClientRepository.getInstance().save(this);
+    }
+
+    public  static List<Client> getAll(){
+        return SQliteClientRepository.getInstance().getAll();
+    }
+
+
+
 
 
     @Override
@@ -115,6 +133,7 @@ public class Client implements Serializable, Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id == null ? -1 : id);
         dest.writeString(name == null? "" : name);
         dest.writeString(address == null? "" : address);
         dest.writeInt(age == null ? -1 : age);
@@ -122,6 +141,8 @@ public class Client implements Serializable, Parcelable {
     }
 
     public void readToParcel(Parcel in) {
+        int partialId = in.readInt();
+        id = partialId == -1? null : partialId;
         name = in.readString();
         address = in.readString();
         int partialAge = in.readInt();

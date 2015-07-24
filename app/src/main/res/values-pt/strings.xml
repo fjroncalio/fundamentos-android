@@ -16,4 +16,8 @@
     <string name="requiredField">Campo obrigatório!</string>
     <string name="delete">Deletar</string>
     <string name="edit">Editar</string>
+    <string name="confirm_delete">Confirma exclusão?</string>
+    <string name="confirm_progress">Deseja prosseguir?</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
 </resources>
