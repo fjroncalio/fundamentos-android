@@ -151,7 +151,6 @@ public class Client implements Serializable, Parcelable {
 
     }
 
-
     public static final Parcelable.Creator<Client> CREATOR = new Parcelable.Creator<Client>() {
         @Override
         public Client createFromParcel(Parcel source) {
