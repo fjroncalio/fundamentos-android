@@ -10,5 +10,9 @@ public final class AppUtil {
     public static Context CONTEXT;
 
 
+    public static boolean stringIsNullOrEmpty(String texto){
+        return  texto == null || texto.trim().isEmpty();
+    }
+
 
 }

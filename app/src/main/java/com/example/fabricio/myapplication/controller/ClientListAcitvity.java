@@ -3,6 +3,7 @@ package com.example.fabricio.myapplication.controller;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,9 @@ import android.widget.Toast;
 
 import com.example.fabricio.myapplication.model.entities.Client;
 import com.example.fabricio.myapplication.R;
+import com.melnykov.fab.FloatingActionButton;
+
+import org.apache.http.protocol.HTTP;
 
 import java.util.List;
 
@@ -24,6 +28,7 @@ public class ClientListAcitvity extends AppCompatActivity {
 
     private ListView listViewClients;
     private Client client;
+    private FloatingActionButton fabAdd;
 
 
     @Override
@@ -33,6 +38,19 @@ public class ClientListAcitvity extends AppCompatActivity {
 
         bindClientList();
 
+        bindFab();
+
+    }
+
+    private void bindFab() {
+        fabAdd = (FloatingActionButton) findViewById(R.id.fabAdd);
+        fabAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goToClientPersistActivity = new Intent(ClientListAcitvity.this, ClientPersistActivity.class);
+                startActivity(goToClientPersistActivity);
+            }
+        });
     }
 
     @Override
@@ -94,9 +112,20 @@ public class ClientListAcitvity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menuNewClient) {
-            Intent goToMainAcitivity = new Intent(ClientListAcitvity.this, ClientPersistActivity.class);
-            startActivity(goToMainAcitivity);
+        if (item.getItemId() == R.id.menuShare) {
+            // Create the text message with a string
+            final Intent sendIntent = new Intent(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "Seu texto aqui...");
+            sendIntent.setType(HTTP.PLAIN_TEXT_TYPE);
+
+            // Create intent to show the chooser dialog
+            final Intent chooser = Intent.createChooser(sendIntent, "Titulo Chooser");
+
+            // Verify the original intent will resolve to at least one activity
+            if (sendIntent.resolveActivity(getPackageManager()) != null) {
+                startActivity(chooser);
+            }
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -119,6 +148,17 @@ public class ClientListAcitvity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 client = (Client) parent.getItemAtPosition(position);
                 return false;
+            }
+        });
+
+        listViewClients.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Client client = (Client) parent.getItemAtPosition(position);
+                // Best Practices: http://stackoverflow.com/questions/4275678/how-to-make-phone-call-using-intent-in-android
+                final Intent goToSOPhoneCall = new Intent(Intent.ACTION_CALL /* or Intent.ACTION_DIAL (no manifest permission needed) */);
+                goToSOPhoneCall.setData(Uri.parse("tel:" + client.getPhone()));
+                startActivity(goToSOPhoneCall);
             }
         });
         registerForContextMenu(listViewClients);

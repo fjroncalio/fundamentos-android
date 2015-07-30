@@ -20,4 +20,18 @@
     <string name="confirm_progress">Deseja prosseguir?</string>
     <string name="yes">Sim</string>
     <string name="no">Não</string>
+    <string name="postal_code">Código Postal</string>
+    <string name="find_address">Procurar endereço</string>
+    <string name="patio">Logradouro</string>
+    <string name="district">Bairro</string>
+    <string name="city">Cidade</string>
+    <string name="country">Estado</string>
+    <string name="type_patio">Tipo Logradouro</string>
+    <string name="number">Número</string>
+    <string name="loading">Carregando...</string>
+    <string name="welcome">Bem vindo!</string>
+    <string name="user_or_password_not_vallid">Usuario ou senha invalido!</string>
+    <string name="ok">Ok</string>
+    <string name="try_again">Tente novamente!</string>
+    <string name="share">Share</string>
 </resources>

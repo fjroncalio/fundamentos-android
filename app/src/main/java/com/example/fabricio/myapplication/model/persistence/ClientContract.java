@@ -15,8 +15,16 @@ public class ClientContract {
     public static final String NAME = "name";
     public static final String AGE = "age";
     public static final String PHONE = "phone";
-    public static final String ADDRESS = "address";
-    public static final String[] COLUMNS = {ID, NAME, AGE, PHONE, ADDRESS};
+
+    public static final String ZIP_CODE = "zip_code";
+    public static final String TYPE_PATIO = "type_patio";
+    public static final String PATIO = "patio";
+    public static final String DISTRICT = "district";
+    public static final String CITY = "city";
+    public static final String COUNTRY = "country";
+    public static final String NUMBER = "number";
+
+    public static final String[] COLUMNS = {ID, NAME, AGE, PHONE, ZIP_CODE, TYPE_PATIO, PATIO, DISTRICT, CITY, COUNTRY, NUMBER };
 
 
     public static String getCreateSqlTable() {
@@ -29,7 +37,13 @@ public class ClientContract {
         sql.append(NAME + " TEXT, ");
         sql.append(AGE + " INTEGER, ");
         sql.append(PHONE + " TEXT, ");
-        sql.append(ADDRESS + " TEXT ");
+        sql.append(ZIP_CODE + " TEXT, ");
+        sql.append(TYPE_PATIO + " TEXT, ");
+        sql.append(PATIO + " TEXT, ");
+        sql.append(DISTRICT + " TEXT, ");
+        sql.append(CITY + " TEXT, ");
+        sql.append(COUNTRY + " TEXT, ");
+        sql.append(NUMBER + " INTEGER ");
         sql.append(" ); ");
 
 
@@ -40,10 +54,16 @@ public class ClientContract {
 
         ContentValues values = new ContentValues();
         values.put(ClientContract.ID, client.getId());
-        values.put(ClientContract.ADDRESS, client.getAddress());
         values.put(ClientContract.AGE, client.getAge());
         values.put(ClientContract.NAME, client.getName());
         values.put(ClientContract.PHONE, client.getPhone());
+        values.put(ClientContract.ZIP_CODE, client.getZipCode());
+        values.put(ClientContract.TYPE_PATIO, client.getTypePatio());
+        values.put(ClientContract.PATIO, client.getPatio());
+        values.put(ClientContract.DISTRICT, client.getDistrict());
+        values.put(ClientContract.CITY, client.getCity());
+        values.put(ClientContract.COUNTRY, client.getCountry());
+        values.put(ClientContract.NUMBER, client.getNumber());
 
 
         return values;
@@ -56,7 +76,13 @@ public class ClientContract {
             client.setName(cursor.getString(cursor.getColumnIndex(ClientContract.NAME)));
             client.setAge(cursor.getInt(cursor.getColumnIndex(ClientContract.AGE)));
             client.setPhone(cursor.getString(cursor.getColumnIndex(ClientContract.PHONE)));
-            client.setAddress(cursor.getString(cursor.getColumnIndex(ClientContract.ADDRESS)));
+            client.setZipCode(cursor.getString(cursor.getColumnIndex(ClientContract.ZIP_CODE)));
+            client.setTypePatio(cursor.getString(cursor.getColumnIndex(ClientContract.TYPE_PATIO)));
+            client.setPatio(cursor.getString(cursor.getColumnIndex(ClientContract.PATIO)));
+            client.setDistrict(cursor.getString(cursor.getColumnIndex(ClientContract.DISTRICT)));
+            client.setCity(cursor.getString(cursor.getColumnIndex(ClientContract.CITY)));
+            client.setCountry(cursor.getString(cursor.getColumnIndex(ClientContract.COUNTRY)));
+            client.setNumber(cursor.getInt(cursor.getColumnIndex(ClientContract.NUMBER)));
 
             return client;
         }
