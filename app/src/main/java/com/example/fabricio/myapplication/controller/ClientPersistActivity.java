@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.fabricio.myapplication.R;
+import com.example.fabricio.myapplication.Util.AppUtil;
 import com.example.fabricio.myapplication.Util.FormHelper;
 import com.example.fabricio.myapplication.model.entities.Client;
 import com.example.fabricio.myapplication.model.entities.ClientAddress;
@@ -158,7 +159,9 @@ public class ClientPersistActivity extends AppCompatActivity {
 
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (event.getRawX() >= (editTextPostalCode.getRight() - editTextPostalCode.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        new getAddressByPostalCode().execute(editTextPostalCode.getText().toString());
+                        if(!AppUtil.stringIsNullOrEmpty(editTextPostalCode.getText().toString())) {
+                            new getAddressByPostalCode().execute(editTextPostalCode.getText().toString());
+                        }
                     }
                 }
                 return false;
